@@ -416,7 +416,7 @@
     </div>
 
     <script>
-        const imageUrl = 'https://raw.githubusercontent.com/caitrionarr-creator/happy-birthday-jack/main/photo.jpg';
+        const imageUrl = 'https://raw.githubusercontent.com/caitrionarr-creator/happy-birthday-jack/main/photo.jpg?t=' + new Date().getTime();
         let placedPieces = 0;
 
         function initPuzzle() {
@@ -452,7 +452,7 @@
                 pieceEl.className = 'puzzle-piece';
                 pieceEl.id = `piece-${piece.id}`;
                 pieceEl.draggable = true;
-                pieceEl.style.backgroundImage = `url('${imageUrl}?t=${new Date().getTime()}')`;
+                pieceEl.style.backgroundImage = `url('${imageUrl}')`;
                 pieceEl.style.backgroundPosition = `${-piece.col * 100}px ${-piece.row * 100}px`;
                 pieceEl.ondragstart = dragStart;
                 pieceEl.dataset.row = piece.row;

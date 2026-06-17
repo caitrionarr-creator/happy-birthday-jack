@@ -66,8 +66,10 @@
             border-radius: 5px;
             transition: transform 0.2s, box-shadow 0.2s;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-            background-size: 300px 300px;
-            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
         }
 
         .puzzle-piece:hover {
@@ -416,7 +418,7 @@
     </div>
 
     <script>
-        const imageUrl = 'https://raw.githubusercontent.com/caitrionarr-creator/happy-birthday-jack/main/photo.jpg?t=' + new Date().getTime();
+        const colors = ['❤️', '🧡', '💛', '💚', '💙', '💜', '🤍', '🤎', '💖'];
         let placedPieces = 0;
 
         function initPuzzle() {
@@ -452,8 +454,7 @@
                 pieceEl.className = 'puzzle-piece';
                 pieceEl.id = `piece-${piece.id}`;
                 pieceEl.draggable = true;
-                pieceEl.style.backgroundImage = `url('${imageUrl}')`;
-                pieceEl.style.backgroundPosition = `${-piece.col * 100}px ${-piece.row * 100}px`;
+                pieceEl.textContent = colors[piece.id];
                 pieceEl.ondragstart = dragStart;
                 pieceEl.dataset.row = piece.row;
                 pieceEl.dataset.col = piece.col;

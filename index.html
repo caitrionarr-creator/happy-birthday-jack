@@ -261,7 +261,7 @@
             color: #a03a68;
         }
 
-        .story-section {
+        .journey-section {
             text-align: left;
             margin-top: 40px;
             padding: 30px;
@@ -270,16 +270,43 @@
             border-left: 5px solid #c94d8a;
         }
 
-        .story-section h2 {
+        .journey-section h2 {
             color: #c94d8a;
             margin-bottom: 15px;
         }
 
-        .story-section p {
+        .journey-paragraph {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .journey-paragraph img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .journey-paragraph p {
             color: #555;
             line-height: 1.8;
-            margin-bottom: 15px;
             font-family: 'Georgia', serif;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .journey-paragraph:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .journey-paragraph.bold-text p {
+            font-weight: bold;
+            color: #c94d8a;
+            font-size: 1.1em;
         }
 
         .continue-btn {
@@ -330,6 +357,15 @@
             .puzzle-container {
                 flex-direction: column;
             }
+
+            .journey-paragraph {
+                flex-direction: column !important;
+            }
+
+            .journey-paragraph img {
+                width: 100%;
+                max-width: 300px;
+            }
         }
     </style>
 </head>
@@ -348,8 +384,8 @@
 
         <p class="progress-text" id="progressText">0 / 9 pieces placed</p>
 
-        <div id="completionModal" class="modal">
-            <div class="modal-content">
+        <div id="completionModal" class="modal" onclick="closeModalOnClickOutside(event)">
+            <div class="modal-content" onclick="event.stopPropagation()">
                 <button class="close-btn" onclick="closeModal()">&times;</button>
                 
                 <h2 style="color: #c94d8a; text-align: center; margin-bottom: 20px;">🎉 You Did It! 🎉</h2>
@@ -403,27 +439,47 @@
                     Every mile, every hour, every moment has been worth it. 💚
                 </p>
 
-                <button class="continue-btn" onclick="scrollToStories()">See More of Our Story →</button>
+                <button class="continue-btn" onclick="scrollToJourney()">See More of Our Journey →</button>
             </div>
         </div>
 
-        <div class="story-section" id="storiesSection" style="display: none;">
+        <div class="journey-section" id="journeySection" style="display: none;">
             <h2>Our Journey 💫</h2>
-            <p>
-                I was navigating a life that felt empty, settling for things that didn't quite fit. I didn't even realize I was waiting for my forever person until a simple game brought us together. When I posted that selfie, your message changed everything: "I wanted to message you directly to say how gorgeous you are." That quiet respect and undeniable kindness planted the very first seed.
-            </p>
-            <p>
-                You became my safe harbor during one of the hardest seasons of my life. You showed me what it means to be truly valued, proving that I deserved better and that I was capable of loving and being loved with an open heart.
-            </p>
-            <p>
-                Then came the invitation to Florida. Taking that risk was the best decision I ever made. But from the second we met, it was clear this was going to be so much more than just a great time.
-            </p>
-            <p>
-                The spark between us was instant and electric. You were exactly who I had imagined, and then some. Smart, impossibly handsome, endlessly funny—even with your relentless dad jokes. Every moment with you is an adventure, and I love everything about us.
-            </p>
-            <p style="font-weight: bold; margin-top: 25px;">
-                Now, every step I take is a step back toward you. Florida is no longer just a dot on the map; it's where I belong. It is home, because you are my home. 🏡💚
-            </p>
+            
+            <div class="journey-paragraph">
+                <img src="https://raw.githubusercontent.com/caitrionarr-creator/happy-birthday-jack/main/Tile%201.png" alt="Our beginning">
+                <p>
+                    I was navigating a life that felt empty, settling for things that didn't quite fit. I didn't even realize I was waiting for my forever person until a simple game brought us together. When I posted that selfie, your message changed everything: "I wanted to message you directly to say how gorgeous you are." That quiet respect and undeniable kindness planted the very first seed.
+                </p>
+            </div>
+
+            <div class="journey-paragraph">
+                <img src="https://raw.githubusercontent.com/caitrionarr-creator/happy-birthday-jack/main/Tile%202.png" alt="Growing together">
+                <p>
+                    You became my safe harbor during one of the hardest seasons of my life. You showed me what it means to be truly valued, proving that I deserved better and that I was capable of loving and being loved with an open heart.
+                </p>
+            </div>
+
+            <div class="journey-paragraph">
+                <img src="https://raw.githubusercontent.com/caitrionarr-creator/happy-birthday-jack/main/Tile%203.png" alt="Taking the leap">
+                <p>
+                    Then came the invitation to Florida. Taking that risk was the best decision I ever made. But from the second we met, it was clear this was going to be so much more than just a great time.
+                </p>
+            </div>
+
+            <div class="journey-paragraph">
+                <img src="https://raw.githubusercontent.com/caitrionarr-creator/happy-birthday-jack/main/Tile%204.png" alt="Our spark">
+                <p>
+                    The spark between us was instant and electric. You were exactly who I had imagined, and then some. Smart, impossibly handsome, endlessly funny—even with your relentless dad jokes. Every moment with you is an adventure, and I love everything about us.
+                </p>
+            </div>
+
+            <div class="journey-paragraph bold-text">
+                <img src="https://raw.githubusercontent.com/caitrionarr-creator/happy-birthday-jack/main/Tile%205.png" alt="Coming home">
+                <p>
+                    Now, every step I take is a step back toward you. Florida is no longer just a dot on the map; it's where I belong. It is home, because you are my home. 🏡💚
+                </p>
+            </div>
         </div>
     </div>
 
@@ -514,9 +570,16 @@
             document.getElementById('completionModal').classList.remove('show');
         }
 
-        function scrollToStories() {
-            document.getElementById('storiesSection').style.display = 'block';
-            document.getElementById('storiesSection').scrollIntoView({ behavior: 'smooth' });
+        function closeModalOnClickOutside(event) {
+            if (event.target.id === 'completionModal') {
+                scrollToJourney();
+            }
+        }
+
+        function scrollToJourney() {
+            document.getElementById('completionModal').classList.remove('show');
+            document.getElementById('journeySection').style.display = 'block';
+            document.getElementById('journeySection').scrollIntoView({ behavior: 'smooth' });
         }
 
         // Initialize puzzle on page load

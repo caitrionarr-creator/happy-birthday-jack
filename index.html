@@ -417,7 +417,7 @@
     </div>
 
     <script>
-        const imageUrl = 'https://raw.githubusercontent.com/caitrionarr-creator/happy-birthday-jack/main/couple.jpg?t=' + new Date().getTime();
+        const imageData = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwwDAwwGBAMFBgYGBgcGBgcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwIDAwKDAwMDAwKDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCABkAGQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWm5ybnJ2eoqOkpaanqKmqsrO0tba2uLm6wsPExcbHyMnK0tPU1dbW2Nna4uPk5ebn6Onq8vP09fb2+Pn6/8QAHwEAAwEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba2uLm6wsPExcbHyMnK0tPU1dbW2Nna4uPk5ebn6Onq8vP09fb2+Pn6/9oADAMBAAIRAxEAPwD9/KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/2Q==';
         let placedPieces = 0;
 
         function initPuzzle() {
@@ -453,7 +453,100 @@
                 pieceEl.className = 'puzzle-piece';
                 pieceEl.id = `piece-${piece.id}`;
                 pieceEl.draggable = true;
-                pieceEl.style.backgroundImage = `url('${imageUrl}')`;
+                pieceEl.style.backgroundImage = `url('${imageData}')`;
+                pieceEl.style.backgroundPosition = `${-piece.col * 100}px ${-piece.row * 100}px`;
+                pieceEl.ondragstart = dragStart;
+                pieceEl.dataset.row = piece.row;
+                pieceEl.dataset.col = piece.col;
+                pieceEl.dataset.id = piece.id;
+                piecesContainer.appendChild(pieceEl);
+            });
+        }
+
+        function allowDrop(e) {
+            e.preventDefault();
+        }
+
+        function dragStart(e) {
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('pieceId', e.target.id);
+        }
+
+        function drop(e) {
+            e.preventDefault();
+            const pieceId = e.dataTransfer.getData('pieceId');
+            const piece = document.getElementById(pieceId);
+            const slot = e.target.closest('.puzzle-slot');
+
+            if (!slot || slot.hasChildNodes()) return;
+
+            piece.classList.add('placed');
+            piece.style.cursor = 'default';
+            piece.draggable = false;
+            slot.appendChild(piece);
+            slot.classList.add('filled');
+
+            placedPieces++;
+            document.getElementById('progressText').textContent = `${placedPieces} / 9 pieces placed`;
+
+            if (placedPieces === 9) {
+                setTimeout(() => {
+                    document.getElementById('completionModal').classList.add('show');
+                }, 500);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('completionModal').classList.remove('show');
+        }
+
+        function scrollToStories() {
+            document.getElementById('storiesSection').style.display = 'block';
+            document.getElementById('storiesSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize puzzle on page load
+        window.addEventListener('load', initPuzzle);
+    </script>
+
+</body>
+</html>';
+        let placedPieces = 0;
+
+        function initPuzzle() {
+            const board = document.getElementById('puzzleBoard');
+            const piecesContainer = document.getElementById('puzzlePieces');
+
+            // Create 9 puzzle slots
+            for (let i = 0; i < 9; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'puzzle-slot';
+                slot.id = `slot-${i}`;
+                slot.ondrop = drop;
+                slot.ondragover = allowDrop;
+                board.appendChild(slot);
+            }
+
+            // Create 9 puzzle pieces (randomized)
+            const pieces = [];
+            let index = 0;
+            for (let row = 0; row < 3; row++) {
+                for (let col = 0; col < 3; col++) {
+                    pieces.push({ row, col, id: index });
+                    index++;
+                }
+            }
+
+            // Shuffle pieces
+            pieces.sort(() => Math.random() - 0.5);
+
+            // Create draggable puzzle pieces
+            pieces.forEach(piece => {
+                const pieceEl = document.createElement('div');
+                pieceEl.className = 'puzzle-piece';
+                pieceEl.id = `piece-${piece.id}`;
+                pieceEl.draggable = true;
+                pieceEl.style.backgroundImage = `url('${imageData}')`;
                 pieceEl.style.backgroundPosition = `${-piece.col * 100}px ${-piece.row * 100}px`;
                 pieceEl.ondragstart = dragStart;
                 pieceEl.dataset.row = piece.row;

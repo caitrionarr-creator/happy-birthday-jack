@@ -309,6 +309,131 @@
             font-size: 1.1em;
         }
 
+        .cake-section {
+            text-align: center;
+            margin-top: 50px;
+            padding: 40px 30px;
+            background: linear-gradient(135deg, #ffe5ec 0%, #fff0f5 100%);
+            border-radius: 15px;
+            border: 3px solid #ffc0cb;
+        }
+
+        .birthday-cake {
+            font-size: 100px;
+            margin: 20px 0;
+            animation: flicker 0.5s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .cake-section h3 {
+            color: #c94d8a;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .cake-section p {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .blow-candles-btn {
+            background: linear-gradient(135deg, #c94d8a 0%, #e85ba6 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: bold;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(201, 77, 138, 0.4);
+        }
+
+        .blow-candles-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(201, 77, 138, 0.6);
+        }
+
+        .reasons-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.3s;
+        }
+
+        .reasons-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .reasons-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.5s;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .reasons-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2em;
+            font-weight: bold;
+            color: #c94d8a;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .reasons-close:hover {
+            color: #a03a68;
+        }
+
+        .reasons-content h2 {
+            color: #c94d8a;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .reason-item {
+            background: linear-gradient(135deg, #ffe5ec 0%, #fff0f5 100%);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-left: 5px solid #c94d8a;
+            text-align: left;
+            font-size: 1.05em;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .reason-number {
+            color: #c94d8a;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
         .continue-btn {
             background: linear-gradient(135deg, #c94d8a 0%, #e85ba6 100%);
             color: white;
@@ -365,6 +490,15 @@
             .journey-paragraph img {
                 width: 100%;
                 max-width: 300px;
+            }
+
+            .birthday-cake {
+                font-size: 60px;
+            }
+
+            .blow-candles-btn {
+                padding: 12px 30px;
+                font-size: 1em;
             }
         }
     </style>
@@ -480,6 +614,61 @@
                     Now, every step I take is a step back toward you. Florida is no longer just a dot on the map; it's where I belong. It is home, because you are my home. 🏡💚
                 </p>
             </div>
+
+            <div class="cake-section">
+                <div class="birthday-cake">🎂</div>
+                <h3>One More Thing...</h3>
+                <p>Before you go, let me tell you all the reasons why I love you 💕</p>
+                <button class="blow-candles-btn" onclick="openReasonsModal()">🕯️ Blow out the candles 🕯️</button>
+            </div>
+        </div>
+
+        <div id="reasonsModal" class="reasons-modal" onclick="closeReasonsModalOnClickOutside(event)">
+            <div class="reasons-content" onclick="event.stopPropagation()">
+                <button class="reasons-close" onclick="closeReasonsModal()">&times;</button>
+                
+                <h2>💚 Why I Love You 💚</h2>
+
+                <div class="reason-item">
+                    <span class="reason-number">1.</span> Your genuine kindness and respect for everyone around you
+                </div>
+
+                <div class="reason-item">
+                    <span class="reason-number">2.</span> The way you make me feel truly seen and valued
+                </div>
+
+                <div class="reason-item">
+                    <span class="reason-number">3.</span> Your infectious laugh and ability to make me smile even on hard days
+                </div>
+
+                <div class="reason-item">
+                    <span class="reason-number">4.</span> How smart and thoughtful you are in everything you do
+                </div>
+
+                <div class="reason-item">
+                    <span class="reason-number">5.</span> Your terrible dad jokes that somehow always get me
+                </div>
+
+                <div class="reason-item">
+                    <span class="reason-number">6.</span> The way you look at me like I'm the most important person in the world
+                </div>
+
+                <div class="reason-item">
+                    <span class="reason-number">7.</span> Your strength and how you support me through everything
+                </div>
+
+                <div class="reason-item">
+                    <span class="reason-number">8.</span> The adventure and excitement you bring into my life
+                </div>
+
+                <div class="reason-item">
+                    <span class="reason-number">9.</span> Your unwavering loyalty and commitment
+                </div>
+
+                <div class="reason-item">
+                    <span class="reason-number">10.</span> Simply... everything about you, exactly as you are 💕
+                </div>
+            </div>
         </div>
     </div>
 
@@ -580,6 +769,20 @@
             document.getElementById('completionModal').classList.remove('show');
             document.getElementById('journeySection').style.display = 'block';
             document.getElementById('journeySection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function openReasonsModal() {
+            document.getElementById('reasonsModal').classList.add('show');
+        }
+
+        function closeReasonsModal() {
+            document.getElementById('reasonsModal').classList.remove('show');
+        }
+
+        function closeReasonsModalOnClickOutside(event) {
+            if (event.target.id === 'reasonsModal') {
+                closeReasonsModal();
+            }
         }
 
         // Initialize puzzle on page load
